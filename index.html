@@ -251,13 +251,11 @@
   </footer>
 
   <script>
-    // Statehantering
-    let currentUsername = "snapz01"; // Ditt GitHub-användarnamn laddas nu automatiskt direkt
+    let currentUsername = "snapz01";
     let projectsList = [];
     let currentFilter = "all";
     let searchQuery = "";
 
-    // Exempel-teman och bakgrundsbilder för webb-förhandsvisningar
     const mockGradients = [
       "from-blue-600/30 via-indigo-900/40 to-slate-950",
       "from-emerald-600/30 via-teal-900/40 to-slate-950",
@@ -266,7 +264,6 @@
       "from-rose-600/30 via-pink-900/40 to-slate-950"
     ];
 
-    // Hjälpfunktion för säkra Toast-notifikationer (ersätter alert())
     function showToast(message, isSuccess = true) {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-msg');
@@ -304,28 +301,29 @@
       emptyState.classList.add('hidden');
 
       try {
-        // 1. Hämta användarinformation
         const userRes = await fetch(`https://api.github.com/users/${encodeURIComponent(cleanUsername)}`);
         if (!userRes.ok) {
           throw new Error(userRes.status === 404 ? "Användaren hittades inte på GitHub" : "Kunde inte ansluta till GitHub API");
         }
         const userData = await userRes.json();
 
-        // 2. Hämta användarens repositories
         const reposRes = await fetch(`https://api.github.com/users/${encodeURIComponent(cleanUsername)}/repos?sort=updated&per_page=60`);
         if (!reposRes.ok) {
           throw new Error("Kunde inte hämta repositories från GitHub");
         }
         const rawRepos = await reposRes.json();
 
-        // 3. EXKLUSIVT: Filtrera enbart publika repositories
-        const publicRepos = rawRepos.filter(repo => repo.private === false && repo.name.toLowerCase() !== 'snapz01.github.io');
+        // Robust filtrering: Exkluderar privata samt alla varianter av portfolio-repot
+        const publicRepos = rawRepos.filter(repo => {
+          const name = repo.name.toLowerCase();
+          const isPortfolioRepo = name === 'snapz01.github.io' || name.includes('timmy.github') || name === 'snapz01.github';
+          return repo.private === false && !isPortfolioRepo;
+        });
 
         if (publicRepos.length === 0) {
           throw new Error("Inga publika projekt hittades för denna användare.");
         }
 
-        // Uppdatera sidans profilinformation
         currentUsername = cleanUsername;
         document.getElementById('nav-user-label').textContent = `@${cleanUsername}`;
         document.getElementById('user-avatar').src = userData.avatar_url || `https://placehold.co/160x160/1e1b4b/a5b4fc?text=${cleanUsername}`;
@@ -334,11 +332,9 @@
 
         let totalStars = 0;
 
-        // Omvandla och strukturera projektlistan
         projectsList = publicRepos.map((repo, index) => {
           totalStars += (repo.stargazers_count || 0);
 
-          // Kolla om projektet har en angiven Live-sida (homepage / GitHub Pages)
           let demoUrl = null;
           if (repo.homepage && repo.homepage.trim() !== '') {
             demoUrl = repo.homepage.startsWith('http') ? repo.homepage : `https://${repo.homepage}`;
@@ -346,7 +342,6 @@
             demoUrl = `https://${cleanUsername}.github.io/${repo.name}/`;
           }
 
-          // Samla språk och topics (taggar)
           const tags = [];
           if (repo.language) tags.push(repo.language);
           if (repo.topics && Array.isArray(repo.topics)) {
@@ -370,7 +365,6 @@
           };
         });
 
-        // Uppdatera statistik-chips
         document.getElementById('stat-repo-count').textContent = `${projectsList.length} publika projekt`;
         document.getElementById('stat-star-count').textContent = `${totalStars} stjärnor`;
 
@@ -389,11 +383,10 @@
       const grid = document.getElementById('projects-grid');
       const emptyState = document.getElementById('empty-state');
 
-      // Filtrera utifrån aktiv tagg och sökord
       const filtered = projectsList.filter(proj => {
         const matchesSearch = proj.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                              proj.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                              proj.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+                            proj.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            proj.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
 
         if (!matchesSearch) return false;
 
@@ -430,7 +423,6 @@
         return `
           <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between">
             <div>
-              <!-- Kort-header med förhandsvisningsgradient -->
               <div class="h-36 bg-gradient-to-br ${item.gradient} p-4 relative flex flex-col justify-between border-b border-slate-800/80">
                 <div class="flex items-center justify-between">
                   <span class="px-2.5 py-1 rounded-full bg-slate-950/70 backdrop-blur-md text-[11px] font-semibold text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
@@ -452,7 +444,6 @@
                 </div>
               </div>
 
-              <!-- Innehåll -->
               <div class="p-5">
                 <h3 class="text-base font-bold text-white mb-2 leading-tight hover:text-indigo-400 transition capitalize">
                   ${item.displayName}
@@ -461,14 +452,12 @@
                   ${item.description}
                 </p>
 
-                <!-- Taggar -->
                 <div class="flex flex-wrap gap-1.5 mb-2">
                   ${tagBadges}
                 </div>
               </div>
             </div>
 
-            <!-- Knappar / Ageranden -->
             <div class="p-4 pt-2 border-t border-slate-800/80 bg-slate-950/40 flex items-center gap-2">
               ${demoButton}
               <a href="${item.repoUrl}" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-white font-medium text-xs flex items-center justify-center gap-1.5 transition" title="Visa källkod på GitHub">
@@ -502,12 +491,10 @@
     closeModalBtn.addEventListener('click', closeModal);
     modalCancelBtn.addEventListener('click', closeModal);
 
-    // Klick utanför modalen stänger den
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
     });
 
-    // Skicka in nytt användarnamn
     githubForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const val = modalUsernameInput.value.trim();
@@ -516,14 +503,12 @@
       }
     });
 
-    // Sökning i realtid
     const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value;
       renderProjects();
     });
 
-    // Filter-knappar
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -540,7 +525,6 @@
       });
     });
 
-    // Initiera vid sidladdning
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('current-year').textContent = new Date().getFullYear();
       fetchGitHubData(currentUsername);
