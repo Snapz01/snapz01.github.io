@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="sv" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Min Webbutvecklings-Portfolio | GitHub Showcase</title>
+  
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .glass-nav {
+      background: rgba(11, 15, 25, 0.82);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card {
+      background: rgba(18, 24, 39, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.2);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(147, 51, 234, 0.05) 50%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(50px);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
+  <!-- Glowing Background Orbs -->
+  <div class="hero-glow top-[-100px] left-1/2 -translate-x-1/2 -z-10"></div>
+  <div class="hero-glow bottom-[20%] right-[-150px] -z-10 opacity-70"></div>
+
+  <!-- Toppnavigation -->
+  <header class="sticky top-0 z-40 glass-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+          <i class="fa-solid fa-code text-white text-lg"></i>
+        </div>
+        <div>
+          <span class="font-bold text-base tracking-tight text-white flex items-center gap-1.5">
+            Dev<span class="text-indigo-400">Portfolio</span>
+          </span>
+          <p class="text-[11px] text-slate-400 font-mono -mt-1" id="nav-user-label">@användare</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="open-settings-btn" class="px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700/60 transition flex items-center gap-2">
+          <i class="fa-brands fa-github text-sm text-indigo-400"></i>
+          <span class="hidden sm:inline">Hämta mitt</span> GitHub
+        </button>
+        <a id="profile-github-link" href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 flex items-center justify-center transition">
+          <i class="fa-brands fa-github text-base"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero / Profilsektion -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <section class="mb-12 text-center max-w-3xl mx-auto">
+      <div class="relative inline-block mb-4">
+        <img id="user-avatar" src="https://placehold.co/160x160/1e1b4b/a5b4fc?text=Dev" alt="Profilbild" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border-2 border-indigo-500/40 shadow-xl shadow-indigo-950 p-1 bg-slate-900" onerror="this.src='https://placehold.co/160x160/1e1b4b/a5b4fc?text=Dev'">
+        <span class="absolute bottom-2 right-2 w-4 h-4 bg-emerald-500 rounded-full border-2 border-slate-900 shadow" title="Redo för nya projekt"></span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-3">
+        Mina Webbsidor &amp; <span class="gradient-text">GitHub Projekt</span>
+      </h1>
+      <p id="user-bio" class="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-6">
+        Här samlar jag alla mina publika webbplatser och projekt byggda och publicerade via GitHub. Klicka och utforska live-demos eller källkoden!
+      </p>
+
+      <!-- Snabb-statistik -->
+      <div class="flex flex-wrap items-center justify-center gap-3 text-xs text-slate-300">
+        <div class="px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-earth-americas text-indigo-400"></i>
+          <span>Enbart <strong class="text-white">Publika</strong> Repos</span>
+        </div>
+        <div class="px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-code-fork text-indigo-400"></i>
+          <span id="stat-repo-count">0 projekt synkade</span>
+        </div>
+        <div class="px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-star text-amber-400"></i>
+          <span id="stat-star-count">0 stjärnor</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sökning och filtrering -->
+    <section class="mb-8">
+      <div class="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between pb-6 border-b border-slate-800">
+        
+        <!-- Sökfält -->
+        <div class="relative flex-1 max-w-md">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+          <input type="text" id="search-input" placeholder="Sök bland webbsidor, språk eller taggar..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+        </div>
+
+        <!-- Tagg-filter -->
+        <div class="flex flex-wrap items-center gap-1.5" id="filter-container">
+          <button data-filter="all" class="filter-btn active px-3 py-1.5 text-xs rounded-lg font-medium bg-indigo-600 text-white transition">Alla</button>
+          <button data-filter="has-demo" class="filter-btn px-3 py-1.5 text-xs rounded-lg font-medium bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition">Med Live Demo</button>
+          <button data-filter="JavaScript" class="filter-btn px-3 py-1.5 text-xs rounded-lg font-medium bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition">JavaScript</button>
+          <button data-filter="HTML" class="filter-btn px-3 py-1.5 text-xs rounded-lg font-medium bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition">HTML</button>
+          <button data-filter="TypeScript" class="filter-btn px-3 py-1.5 text-xs rounded-lg font-medium bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition">TypeScript</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid för projektkort -->
+    <div id="loading-state" class="hidden text-center py-20">
+      <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-500 mb-3"></i>
+      <p class="text-sm text-slate-400">Hämtar publika webbsidor från GitHub...</p>
+    </div>
+
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Projektkort injiceras här via JavaScript -->
+    </div>
+
+    <!-- Tomt tillstånd -->
+    <div id="empty-state" class="hidden text-center py-20 glass-card rounded-2xl max-w-md mx-auto p-8">
+      <div class="w-14 h-14 rounded-2xl bg-slate-800 text-indigo-400 flex items-center justify-center mx-auto mb-4 text-2xl">
+        <i class="fa-solid fa-folder-open"></i>
+      </div>
+      <h3 class="text-base font-bold text-white mb-1">Inga publika projekt hittades</h3>
+      <p class="text-xs text-slate-400 mb-4">Prova en annan sökterm eller hämta dina repos genom att ange ditt GitHub-användarnamn.</p>
+      <button onclick="document.getElementById('open-settings-btn').click()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-xs font-semibold text-white transition">
+        Byt Användarnamn
+      </button>
+    </div>
+  </main>
+
+  <!-- Modal: Byt GitHub användarnamn -->
+  <div id="github-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="glass-card bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <button id="close-modal-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center text-lg">
+          <i class="fa-brands fa-github"></i>
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-white">Anslut GitHub-konto</h3>
+          <p class="text-xs text-slate-400">Visar enbart dina öppna, publika repositories</p>
+        </div>
+      </div>
+
+      <form id="github-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1.5">GitHub Användarnamn</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-mono">@</span>
+            <input type="text" id="modal-username-input" placeholder="t.ex. torvalds, octocat eller ditt namn" class="w-full pl-7 pr-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:outline-none focus:border-indigo-500 font-mono">
+          </div>
+        </div>
+
+        <p class="text-[11px] text-slate-400 leading-normal">
+          <i class="fa-solid fa-circle-info text-indigo-400 mr-1"></i>
+          Webbplatsen hämtar automatiskt länkade live-sidor (från GitHub Pages / Repo Homepage) och filtrerar bort alla privata projekt.
+        </p>
+
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" id="modal-cancel-btn" class="px-4 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white bg-slate-800">Avbryt</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 flex items-center gap-2 shadow-lg shadow-indigo-600/30">
+            <span>Synka Projekt</span>
+            <i class="fa-solid fa-arrow-rotate-right text-xs"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Box -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 shadow-2xl flex items-center gap-3 text-xs text-slate-200">
+      <i id="toast-icon" class="fa-solid fa-check text-emerald-400 text-sm"></i>
+      <span id="toast-msg">Meddelande</span>
+    </div>
+  </div>
+
+  <footer class="mt-auto border-t border-slate-800/80 bg-slate-950/60 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <p>© <span id="current-year">2026</span> GitHub Web Portfolio. Byggd med HTML, Tailwind CSS &amp; GitHub REST API.</p>
+      <div class="flex items-center gap-4">
+        <span class="flex items-center gap-1.5 text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Endast publika repos visas
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Statehantering
+    let currentUsername = "github"; // Standard-profil vid laddning (kan ändras till ditt eget)
+    let projectsList = [];
+    let currentFilter = "all";
+    let searchQuery = "";
+
+    // Exempel-teman och bakgrundsbilder för webb-förhandsvisningar
+    const mockGradients = [
+      "from-blue-600/30 via-indigo-900/40 to-slate-950",
+      "from-emerald-600/30 via-teal-900/40 to-slate-950",
+      "from-purple-600/30 via-fuchsia-900/40 to-slate-950",
+      "from-amber-600/30 via-orange-900/40 to-slate-950",
+      "from-rose-600/30 via-pink-900/40 to-slate-950"
+    ];
+
+    // Hjälpfunktion för säkra Toast-notifikationer (ersätter alert())
+    function showToast(message, isSuccess = true) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      const toastIcon = document.getElementById('toast-icon');
+
+      toastMsg.textContent = message;
+      if (isSuccess) {
+        toastIcon.className = "fa-solid fa-check text-emerald-400 text-sm";
+      } else {
+        toastIcon.className = "fa-solid fa-triangle-exclamation text-rose-400 text-sm";
+      }
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    async function fetchGitHubData(username) {
+      if (!username || username.trim() === '') {
+        showToast("Vänligen ange ett giltigt GitHub-användarnamn", false);
+        return;
+      }
+
+      const cleanUsername = username.trim().replace(/^@/, '');
+      const loadingState = document.getElementById('loading-state');
+      const grid = document.getElementById('projects-grid');
+      const emptyState = document.getElementById('empty-state');
+
+      loadingState.classList.remove('hidden');
+      grid.classList.add('hidden');
+      emptyState.classList.add('hidden');
+
+      try {
+        // 1. Hämta användarinformation
+        const userRes = await fetch(`https://api.github.com/users/${encodeURIComponent(cleanUsername)}`);
+        if (!userRes.ok) {
+          throw new Error(userRes.status === 404 ? "Användaren hittades inte på GitHub" : "Kunde inte ansluta till GitHub API");
+        }
+        const userData = await userRes.json();
+
+        // 2. Hämta användarens repositories
+        const reposRes = await fetch(`https://api.github.com/users/${encodeURIComponent(cleanUsername)}/repos?sort=updated&per_page=60`);
+        if (!reposRes.ok) {
+          throw new Error("Kunde inte hämta repositories från GitHub");
+        }
+        const rawRepos = await reposRes.json();
+
+        // 3. EXKLUSIVT: Filtrera enbart publika repositories
+        const publicRepos = rawRepos.filter(repo => repo.private === false);
+
+        if (publicRepos.length === 0) {
+          throw new Error("Inga publika projekt hittades för denna användare.");
+        }
+
+        // Uppdatera sidans profilinformation
+        currentUsername = cleanUsername;
+        document.getElementById('nav-user-label').textContent = `@${cleanUsername}`;
+        document.getElementById('user-avatar').src = userData.avatar_url || `https://placehold.co/160x160/1e1b4b/a5b4fc?text=${cleanUsername}`;
+        document.getElementById('user-bio').textContent = userData.bio || `Välkommen till min portfolio! Här hittar du alla mina öppna webbplatser och repos.`;
+        document.getElementById('profile-github-link').href = userData.html_url;
+
+        let totalStars = 0;
+
+        // Omvandla och strukturera projektlistan
+        projectsList = publicRepos.map((repo, index) => {
+          totalStars += (repo.stargazers_count || 0);
+
+          // Kolla om projektet har en angiven Live-sida (homepage / GitHub Pages)
+          let demoUrl = null;
+          if (repo.homepage && repo.homepage.trim() !== '') {
+            demoUrl = repo.homepage.startsWith('http') ? repo.homepage : `https://${repo.homepage}`;
+          } else if (repo.has_pages) {
+            demoUrl = `https://${cleanUsername}.github.io/${repo.name}/`;
+          }
+
+          // Samla språk och topics (taggar)
+          const tags = [];
+          if (repo.language) tags.push(repo.language);
+          if (repo.topics && Array.isArray(repo.topics)) {
+            tags.push(...repo.topics.slice(0, 3));
+          }
+          if (tags.length === 0) tags.push("Webbprojekt");
+
+          return {
+            id: repo.id,
+            name: repo.name,
+            displayName: repo.name.replace(/[-_]/g, ' '),
+            description: repo.description || "Ett offentligt webbprojekt publicerat och versionshanterat på GitHub.",
+            language: repo.language || "HTML/CSS",
+            tags: tags,
+            stars: repo.stargazers_count || 0,
+            forks: repo.forks_count || 0,
+            repoUrl: repo.html_url,
+            demoUrl: demoUrl,
+            updatedAt: new Date(repo.updated_at).toLocaleDateString('sv-SE', { year: 'numeric', month: 'short' }),
+            gradient: mockGradients[index % mockGradients.length]
+          };
+        });
+
+        // Uppdatera statistik-chips
+        document.getElementById('stat-repo-count').textContent = `${projectsList.length} publika projekt`;
+        document.getElementById('stat-star-count').textContent = `${totalStars} stjärnor`;
+
+        renderProjects();
+        closeModal();
+        showToast(`Hämtade ${projectsList.length} publika projekt från @${cleanUsername}!`);
+      } catch (err) {
+        showToast(err.message, false);
+        emptyState.classList.remove('hidden');
+      } finally {
+        loadingState.classList.add('hidden');
+      }
+    }
+
+    function renderProjects() {
+      const grid = document.getElementById('projects-grid');
+      const emptyState = document.getElementById('empty-state');
+
+      // Filtrera utifrån aktiv tagg och sökord
+      const filtered = projectsList.filter(proj => {
+        const matchesSearch = proj.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              proj.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              proj.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+
+        if (!matchesSearch) return false;
+
+        if (currentFilter === "all") return true;
+        if (currentFilter === "has-demo") return Boolean(proj.demoUrl);
+        return proj.tags.some(t => t.toLowerCase() === currentFilter.toLowerCase()) || 
+               proj.language.toLowerCase() === currentFilter.toLowerCase();
+      });
+
+      if (filtered.length === 0) {
+        grid.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      grid.classList.remove('hidden');
+
+      grid.innerHTML = filtered.map(item => {
+        const tagBadges = item.tags.map(tag => 
+          `<span class="px-2 py-0.5 rounded-md bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-indigo-300">${tag}</span>`
+        ).join('');
+
+        const demoButton = item.demoUrl 
+          ? `<a href="${item.demoUrl}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs text-center flex items-center justify-center gap-1.5 shadow-md shadow-indigo-600/30 transition">
+              <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
+              <span>Live Webbplats</span>
+             </a>`
+          : `<span class="flex-1 py-2 px-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-500 font-medium text-xs text-center flex items-center justify-center gap-1 cursor-not-allowed" title="Ingen publicerad live-webbplats länkad ännu">
+              <i class="fa-solid fa-link-slash text-[11px]"></i>
+              <span>Ej Live</span>
+             </span>`;
+
+        return `
+          <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between">
+            <div>
+              <!-- Kort-header med förhandsvisningsgradient -->
+              <div class="h-36 bg-gradient-to-br ${item.gradient} p-4 relative flex flex-col justify-between border-b border-slate-800/80">
+                <div class="flex items-center justify-between">
+                  <span class="px-2.5 py-1 rounded-full bg-slate-950/70 backdrop-blur-md text-[11px] font-semibold text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    Publik
+                  </span>
+                  <div class="flex items-center gap-2 text-xs text-slate-300">
+                    <span class="flex items-center gap-1 bg-slate-950/60 px-2 py-0.5 rounded-md border border-slate-800">
+                      <i class="fa-solid fa-star text-amber-400 text-[10px]"></i> ${item.stars}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-slate-900/90 border border-slate-700 flex items-center justify-center text-indigo-400">
+                    <i class="fa-solid fa-globe text-sm"></i>
+                  </div>
+                  <span class="text-xs font-mono text-slate-300 tracking-wide">${item.name}</span>
+                </div>
+              </div>
+
+              <!-- Innehåll -->
+              <div class="p-5">
+                <h3 class="text-base font-bold text-white mb-2 leading-tight hover:text-indigo-400 transition capitalize">
+                  ${item.displayName}
+                </h3>
+                <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed mb-4">
+                  ${item.description}
+                </p>
+
+                <!-- Taggar -->
+                <div class="flex flex-wrap gap-1.5 mb-2">
+                  ${tagBadges}
+                </div>
+              </div>
+            </div>
+
+            <!-- Knappar / Ageranden -->
+            <div class="p-4 pt-2 border-t border-slate-800/80 bg-slate-950/40 flex items-center gap-2">
+              ${demoButton}
+              <a href="${item.repoUrl}" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-white font-medium text-xs flex items-center justify-center gap-1.5 transition" title="Visa källkod på GitHub">
+                <i class="fa-brands fa-github text-sm"></i>
+                <span>Kod</span>
+              </a>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    const modal = document.getElementById('github-modal');
+    const openSettingsBtn = document.getElementById('open-settings-btn');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const modalCancelBtn = document.getElementById('modal-cancel-btn');
+    const githubForm = document.getElementById('github-form');
+    const modalUsernameInput = document.getElementById('modal-username-input');
+
+    function openModal() {
+      modalUsernameInput.value = currentUsername === "github" ? "" : currentUsername;
+      modal.classList.remove('hidden');
+      modalUsernameInput.focus();
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+    }
+
+    openSettingsBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    modalCancelBtn.addEventListener('click', closeModal);
+
+    // Klick utanför modalen stänger den
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Skicka in nytt användarnamn
+    githubForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = modalUsernameInput.value.trim();
+      if (val) {
+        fetchGitHubData(val);
+      }
+    });
+
+    // Sökning i realtid
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderProjects();
+    });
+
+    // Filter-knappar
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.classList.remove('bg-indigo-600', 'text-white');
+          b.classList.add('bg-slate-900', 'text-slate-400');
+        });
+
+        btn.classList.remove('bg-slate-900', 'text-slate-400');
+        btn.classList.add('bg-indigo-600', 'text-white');
+
+        currentFilter = btn.getAttribute('data-filter');
+        renderProjects();
+      });
+    });
+
+    // Initiera vid sidladdning
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+      fetchGitHubData(currentUsername);
+    });
+  </script>
+</body>
+</html>
