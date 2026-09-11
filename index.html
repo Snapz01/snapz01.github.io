@@ -319,7 +319,7 @@
         const rawRepos = await reposRes.json();
 
         // 3. EXKLUSIVT: Filtrera enbart publika repositories
-        const publicRepos = rawRepos.filter(repo => repo.private === false);
+        const publicRepos = rawRepos.filter(repo => repo.private === false && repo.name.toLowerCase() !== 'snapz01.github.io');
 
         if (publicRepos.length === 0) {
           throw new Error("Inga publika projekt hittades för denna användare.");
